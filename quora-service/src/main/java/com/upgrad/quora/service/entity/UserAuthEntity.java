@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,6 +24,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_auth")
+@NamedQueries({
+        @NamedQuery(name = "userAuthByAccessToken", query = "select u from UserAuthEntity u where u.accessToken=:accessToken")
+})
 public class UserAuthEntity {
 
     @Id
