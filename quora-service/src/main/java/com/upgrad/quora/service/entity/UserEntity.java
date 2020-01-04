@@ -5,12 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -18,6 +13,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@NamedQueries(
+        {
+                @NamedQuery(name = "getUserByUserName",query = "select u from UserEntity u where u.userName = :userName"),
+                @NamedQuery(name = "getUserByEMail",query = "select u from UserEntity u where u.email = :email")
+        }
+)
 public class UserEntity implements Serializable {
 
     @Id
@@ -29,17 +30,17 @@ public class UserEntity implements Serializable {
     @NotNull
     private UUID uuid;
 
-    @Column(name = "first_name")
+    @Column(name = "firstname")
     @NotNull
     @Size(max = 20)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname")
     @NotNull
     @Size(max = 20)
     private String lastName;
 
-    @Column(name = "user_name")
+    @Column(name = "username")
     @NotNull
     @Size(max = 30)
     private String userName;
@@ -63,7 +64,7 @@ public class UserEntity implements Serializable {
     @Size(max = 30)
     private String country;
 
-    @Column(name = "about_me")
+    @Column(name = "aboutme")
     @Size(max = 50)
     private String aboutMe;
 
@@ -75,7 +76,7 @@ public class UserEntity implements Serializable {
     @Size(max = 30)
     private String role;
 
-    @Column(name = "contact_number")
+    @Column(name = "contactnumber")
     @Size(max = 30)
     private String contactNumber;
 
@@ -195,6 +196,6 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);//
     }
 }
