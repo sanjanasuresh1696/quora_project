@@ -16,7 +16,8 @@ import java.util.UUID;
 @NamedQueries(
         {
                 @NamedQuery(name = "getUserByUserName",query = "select u from UserEntity u where u.userName = :userName"),
-                @NamedQuery(name = "getUserByEMail",query = "select u from UserEntity u where u.email = :email")
+                @NamedQuery(name = "getUserByEMail",query = "select u from UserEntity u where u.email = :email"),
+                @NamedQuery(name = "userByUuid",query = "select u from UserEntity u where u.uuid = :uuid")
         }
 )
 public class UserEntity implements Serializable {
@@ -27,11 +28,9 @@ public class UserEntity implements Serializable {
     private int id;
 
     @Column(name = "uuid")
-    @NotNull
     private String uuid;
 
     @Column(name = "firstname")
-
     @NotNull
     @Size(max = 20)
     private String firstName;
@@ -197,6 +196,6 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);//
     }
 }

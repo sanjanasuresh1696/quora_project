@@ -51,7 +51,7 @@ public class UserDao {
     }
 
 
-    public UserEntity getUserByUUID(UUID uuid) {
+    public UserEntity getUserByUUID(String uuid) {
         try{
             return(UserEntity) entityManager.createNamedQuery("userByUuid",UserEntity.class).setParameter("uuid",uuid).getSingleResult();
         } catch(NoResultException nre) {
