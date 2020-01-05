@@ -1,6 +1,7 @@
 package com.upgrad.quora.api.ExceptionHandler;
 
 import com.upgrad.quora.api.model.ErrorResponse;
+import com.upgrad.quora.service.exception.AuthenticationFailedException;
 import com.upgrad.quora.service.exception.SignUpRestrictedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,4 +19,6 @@ public class ApiExceptionHandler {
                 HttpStatus.CONFLICT
         );
     }
+
+
 }

@@ -31,6 +31,7 @@ public class UserEntity implements Serializable {
     private String uuid;
 
     @Column(name = "firstname")
+
     @NotNull
     @Size(max = 20)
     private String firstName;
@@ -196,6 +197,6 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);//
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }
