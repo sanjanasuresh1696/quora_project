@@ -24,8 +24,8 @@ public class UserDao {
 
 
     public UserEntity createUser(UserEntity userEntity) {
-            entityManager.persist(userEntity);
-            return userEntity;
+        entityManager.persist(userEntity);
+        return userEntity;
     }
 
     public UserEntity getUserByName(final String userName) {
@@ -45,39 +45,39 @@ public class UserDao {
         }
     }
 
-/**
- * Get the user given the id.
- *
- * @param userId id of the required user.
- * @return UserEntity if user with given id is found else null.
- */
-        public UserEntity getUserById(String userId) {
-            try {
-                return entityManager.createNamedQuery("getUserById", UserEntity.class).setParameter("uuid", userId).getSingleResult();
+    /**
+     * Get the user given the id.
+     *
+     * @param userId id of the required user.
+     * @return UserEntity if user with given id is found else null.
+     */
+    public UserEntity getUserById(String userId) {
+        try {
+            return entityManager.createNamedQuery("getUserById", UserEntity.class).setParameter("uuid", userId).getSingleResult();
 
-            } catch (NoResultException nre) {
-                return null;
-            }
+        } catch (NoResultException nre) {
+            return null;
         }
+    }
 
 
-        public UserAuthEntity createAuthToken(final UserAuthEntity userAuthEntity) {
-            entityManager.persist(userAuthEntity);
-            return userAuthEntity;
+    public UserAuthEntity createAuthToken(final UserAuthEntity userAuthEntity) {
+        entityManager.persist(userAuthEntity);
+        return userAuthEntity;
+    }
+
+    public void updateUser(final UserEntity updatedUserEntity) {
+        entityManager.merge(updatedUserEntity);
+    }
+
+
+    public UserEntity getUserByUUID(String uuid) {
+        try{
+            return(UserEntity) entityManager.createNamedQuery("userByUuid",UserEntity.class).setParameter("uuid",uuid).getSingleResult();
+        } catch(NoResultException nre) {
+            return null;
         }
-
-        public void updateUser(final UserEntity updatedUserEntity) {
-            entityManager.merge(updatedUserEntity);
-        }
-
-
-        public UserEntity getUserByUUID(String uuid) {
-            try{
-                return(UserEntity) entityManager.createNamedQuery("userByUuid",UserEntity.class).setParameter("uuid",uuid).getSingleResult();
-            } catch(NoResultException nre) {
-                return null;
-            }
-        }
+    }
 
 }
 
