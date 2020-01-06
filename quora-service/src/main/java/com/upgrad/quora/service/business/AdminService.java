@@ -14,20 +14,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AdminService {
 
-    @Autowired private UserAuthDao userAuthDao;
+    @Autowired
+    private UserAuthDao userAuthDao;
 
-    @Autowired private UserDao userDao;
+    @Autowired
+    private UserDao userDao;
 
     /**
      * Deletes the user form the database.
      *
-     * @param userId ID of the user to be deleted.
+     * @param userId      ID of the user to be deleted.
      * @param accessToken To authenticate if the user who is tying to delete the user.
-     * @return
+     * @return Deleted user entity
      * @throws AuthorizationFailedException ATHR-001 if the access token is invalid or ATHR-002
-     *     already logged out or ATHR-003 user is not an admin or user with enetered uuid does not
-     *     exist
-     * @throws UserNotFoundException USR-001 if the user with given id is not present in the records.
+     *                                      already logged out or ATHR-003 user is not an admin or user with enetered uuid does not
+     *                                      exist
+     * @throws UserNotFoundException        USR-001 if the user with given id is not present in the records.
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity deleteUser(final String userId, final String accessToken)

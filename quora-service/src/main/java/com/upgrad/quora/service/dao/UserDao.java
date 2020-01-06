@@ -1,20 +1,13 @@
 package com.upgrad.quora.service.dao;
 
 
-
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UserEntity;
-import com.upgrad.quora.service.exception.SignUpRestrictedException;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-
-import java.util.UUID;
-
 
 @Repository
 public class UserDao {
@@ -22,21 +15,32 @@ public class UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-
+    /**
+     * @param userEntity
+     * @return Persisted user
+     */
     public UserEntity createUser(UserEntity userEntity) {
         entityManager.persist(userEntity);
         return userEntity;
     }
 
+    /**
+     * @param userName
+     * @return User with the given name
+     */
     public UserEntity getUserByName(final String userName) {
-        try{
-            return entityManager.createNamedQuery("getUserByUserName",UserEntity.class).setParameter("userName",userName).getSingleResult();
+        try {
+            return entityManager.createNamedQuery("getUserByUserName", UserEntity.class).setParameter("userName", userName).getSingleResult();
 
         } catch (NoResultException nre) {
             return null;
         }
     }
 
+    /**
+     * @param email
+     * @return User with the given email
+     */
     public UserEntity getUserByEmail(final String email) {
         try {
             return entityManager.createNamedQuery("getUserByEMail", UserEntity.class).setParameter("email", email).getSingleResult();
@@ -70,15 +74,22 @@ public class UserDao {
         entityManager.merge(updatedUserEntity);
     }
 
-
+    /**
+     * @param uuid
+     * @return User with the given UUID
+     */
     public UserEntity getUserByUUID(String uuid) {
-        try{
-            return(UserEntity) entityManager.createNamedQuery("userByUuid",UserEntity.class).setParameter("uuid",uuid).getSingleResult();
-        } catch(NoResultException nre) {
+        try {
+            return entityManager.createNamedQuery("userByUuid", UserEntity.class).setParameter("uuid", uuid).getSingleResult();
+        } catch (NoResultException nre) {
             return null;
         }
     }
 
+    /**
+     * @param userId
+     * @return Deleted user entity
+     */
     public UserEntity deleteUser(final String userId) {
         UserEntity deleteUser = getUserById(userId);
         if (deleteUser != null) {
