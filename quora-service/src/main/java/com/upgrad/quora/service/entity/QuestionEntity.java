@@ -28,7 +28,7 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(name = "getAllQuestions", query = "select q from QuestionEntity q"),
         @NamedQuery(name = "getAllQuestionsByUser", query = "select q from QuestionEntity q JOIN FETCH q.userEntity u where u.uuid=:uuid"),
-        @NamedQuery(name = "getQuestionById", query = "select q from QuestionEntity q where q.uuid=:uuid")
+        @NamedQuery(name = "getQuestionById", query = "select q from QuestionEntity q where q.uuid=:questionId")
 })
 public class QuestionEntity {
 
@@ -39,7 +39,7 @@ public class QuestionEntity {
 
     @Column(name = "uuid")
     @NotNull
-    private UUID uuid;
+    private String uuid;
 
     @Column(name = "content")
     @Size(max = 500)
@@ -63,11 +63,11 @@ public class QuestionEntity {
         this.id = id;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

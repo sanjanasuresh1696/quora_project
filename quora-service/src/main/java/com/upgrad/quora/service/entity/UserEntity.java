@@ -5,9 +5,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
-import javax.persistence.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,24 +13,17 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-
-@NamedQueries(
-        {
-                @NamedQuery(name = "getUserByUserName",query = "select u from UserEntity u where u.userName = :userName"),
-                @NamedQuery(name = "getUserByEMail",query = "select u from UserEntity u where u.email = :email"),
-                @NamedQuery(name = "userByUuid",query = "select u from UserEntity u where u.uuid = :uuid"),
-                @NamedQuery(name = "getUserById", query = "select u from UserEntity u where u.uuid=:uuid")
-        }
-)
-
+@NamedQueries({@NamedQuery(name = "getUserByUserName", query = "select u from UserEntity u where u.userName = :userName"),
+        @NamedQuery(name = "getUserByEMail", query = "select u from UserEntity u where u.email = :email"),
+        @NamedQuery(name = "userByUuid", query = "select u from UserEntity u where u.uuid = :uuid"),
+        @NamedQuery(name = "getUserById", query = "select u from UserEntity u where u.uuid=:uuid")
+})
 public class UserEntity implements Serializable {
 
     @Id

@@ -1,4 +1,4 @@
-package com.upgrad.quora.api.ExceptionHandler;
+package com.upgrad.quora.api.exception;
 
 import com.upgrad.quora.api.model.ErrorResponse;
 import com.upgrad.quora.service.exception.*;
@@ -43,6 +43,7 @@ public class ApiExceptionHandler {
                 HttpStatus.FORBIDDEN
         );
     }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> userNotFoundException(UserNotFoundException ex, WebRequest webReq) {
         return new ResponseEntity<ErrorResponse>(
@@ -51,6 +52,20 @@ public class ApiExceptionHandler {
         );
     }
 
+    @ExceptionHandler(InvalidQuestionException.class)
+    public ResponseEntity<ErrorResponse> invalidQuestionException(InvalidQuestionException ex, WebRequest webReq) {
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code(ex.getCode()).message(ex.getErrorMessage()),
+                HttpStatus.NOT_FOUND
+        );
+    }
 
+    @ExceptionHandler(AnswerNotFoundException.class)
+    public ResponseEntity<ErrorResponse> answerNotFoundException(AnswerNotFoundException ex, WebRequest webReq) {
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code(ex.getCode()).message(ex.getErrorMessage()),
+                HttpStatus.NOT_FOUND
+        );
+    }
 
 }

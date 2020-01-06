@@ -52,7 +52,7 @@ public class QuestionDao {
      */
     public QuestionEntity getQuestionById(String questionId) {
         try {
-            return entityManager.createNamedQuery("getQuestionById", QuestionEntity.class).setParameter("uuid", questionId).getSingleResult();
+            return entityManager.createNamedQuery("getQuestionById", QuestionEntity.class).setParameter("questionId", questionId).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }

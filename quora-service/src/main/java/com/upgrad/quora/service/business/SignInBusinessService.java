@@ -18,31 +18,32 @@ public class SignInBusinessService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private PasswordCryptographyProvider passwordCryptographyProvider;
-
-
+    /**
+     * @param username
+     * @param password
+     * @return User Auth Entity
+     * @throws AuthenticationFailedException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserAuthEntity authenticate(final String username,final String password) throws AuthenticationFailedException {
+    public UserAuthEntity authenticate(final String username, final String password) throws AuthenticationFailedException {
 
 
         UserEntity userEntity = userDao.getUserByName(username);
-        if(userEntity == null) throw new AuthenticationFailedException("ATH-001","This username does not exist");
+        if (userEntity == null) throw new AuthenticationFailedException("ATH-001", "This username does not exist");
 
 
         final String encryptedPassword = PasswordCryptographyProvider.encrypt(password, userEntity.getSalt());
-        if(encryptedPassword.equals(userEntity.getPassword())) {
+        if (encryptedPassword.equals(userEntity.getPassword())) {
             JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(encryptedPassword);
             UserAuthEntity userAuthEntity = new UserAuthEntity();
             userAuthEntity.setUserEntity(userEntity);
             final ZonedDateTime now = ZonedDateTime.now();
             final ZonedDateTime expiresAt = now.plusHours(8);
 
-            userAuthEntity.setAccessToken(jwtTokenProvider.generateToken(userEntity.getUuid().toString(),now, expiresAt));
-            userAuthEntity.setUuid(userEntity.getUuid().toString());
+            userAuthEntity.setAccessToken(jwtTokenProvider.generateToken(userEntity.getUuid(), now, expiresAt));
+            userAuthEntity.setUuid(userEntity.getUuid());
             userAuthEntity.setLoginAt(now);
             userAuthEntity.setExpiresAt(expiresAt);
-
 
 
             userDao.createAuthToken(userAuthEntity);
@@ -50,10 +51,9 @@ public class SignInBusinessService {
 
             return userAuthEntity;
         } else {
-            throw new AuthenticationFailedException("ATH-002","Password failed");
+            throw new AuthenticationFailedException("ATH-002", "Password failed");
         }
     }
-
 
 
 }

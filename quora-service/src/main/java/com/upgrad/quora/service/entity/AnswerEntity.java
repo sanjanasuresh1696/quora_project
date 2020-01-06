@@ -8,14 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
@@ -23,6 +16,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "answer")
+@NamedQueries({
+        @NamedQuery(name = "getAnswerById", query = "select q from AnswerEntity q where q.uuid=:answerId")
+})
 public class AnswerEntity {
     @Id
     @Column(name = "id")
@@ -31,7 +27,7 @@ public class AnswerEntity {
 
     @Column(name = "uuid")
     @NotNull
-    private UUID uuid;
+    private String uuid;
 
     @Column(name = "ans")
     @Size(max = 255)
@@ -60,11 +56,11 @@ public class AnswerEntity {
         this.id = id;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
