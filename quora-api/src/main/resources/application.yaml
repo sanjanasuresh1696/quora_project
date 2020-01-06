@@ -11,8 +11,8 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/quora
-    username: quora_mnr
-    password: mnrpass
+    username: postgres
+    password: password
 
   jpa:
     properties:
