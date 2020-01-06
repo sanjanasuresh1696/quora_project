@@ -4,7 +4,3 @@ quora-db/quora-db.iml
 quora-service/quora-service.iml
 quora.iml
 .idea/
-quora-api/target/
-quora-service/target/
-quora-db/target/
-
