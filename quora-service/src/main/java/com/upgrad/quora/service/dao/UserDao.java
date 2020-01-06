@@ -1,22 +1,27 @@
 package com.upgrad.quora.service.dao;
 
 
+
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.SignUpRestrictedException;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+
 import java.util.UUID;
+
 
 @Repository
 public class UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
 
     public UserEntity createUser(UserEntity userEntity) {
             entityManager.persist(userEntity);
@@ -36,10 +41,23 @@ public class UserDao {
         try{
             return entityManager.createNamedQuery("getUserByEMail",UserEntity.class).setParameter("email",email).getSingleResult();
 
+
+
+    /**
+     * Get the user given the id.
+     *
+     * @param userId id of the required user.
+     * @return UserEntity if user with given id is found else null.
+     */
+    public UserEntity getUserById(String userId) {
+        try {
+            return entityManager.createNamedQuery("getUserById", UserEntity.class).setParameter("uuid", userId).getSingleResult();
+
         } catch (NoResultException nre) {
             return null;
         }
     }
+
 
     public UserAuthEntity createAuthToken(final UserAuthEntity userAuthEntity) {
         entityManager.persist(userAuthEntity);
@@ -58,5 +76,8 @@ public class UserDao {
             return null;
         }
     }
+}
+
+
 }
 
