@@ -7,6 +7,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+
+import javax.persistence.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
@@ -24,9 +28,16 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_auth")
-@NamedQueries({
-        @NamedQuery(name = "userAuthByAccessToken", query = "select u from UserAuthEntity u where u.accessToken=:accessToken")
-})
+
+@NamedQueries(
+        {
+                @NamedQuery(name = "getUserAuthByAccessToken",query = "select u from UserAuthEntity u where u.accessToken = :accessToken"),
+                @NamedQuery(name = "userAuthByAccessToken", query = "select u from UserAuthEntity u where u.accessToken=:accessToken")
+
+        }
+)
+
+
 public class UserAuthEntity {
 
     @Id
@@ -35,7 +46,7 @@ public class UserAuthEntity {
     private int id;
 
     @Column(name = "uuid")
-    private UUID uuid;
+    private String uuid;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -66,11 +77,11 @@ public class UserAuthEntity {
         this.id = id;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
