@@ -33,7 +33,7 @@ public class AnswerDao {
      */
     public AnswerEntity getAnswerById(final String answerId) {
         try {
-            return entityManager.createNamedQuery("getAnswerById", AnswerEntity.class).setParameter("uuid", answerId).getSingleResult();
+            return entityManager.createNamedQuery("getAnswerById", AnswerEntity.class).setParameter("answerId", answerId).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }

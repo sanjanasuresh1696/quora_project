@@ -45,7 +45,7 @@ public class AnswerController {
      * @throws InvalidQuestionException
      */
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<AnswerResponse> createAnswer(@PathVariable("questionId") String questionId, @RequestBody AnswerRequest answerRequest, @RequestHeader("authorization") String accessToken) throws AuthorizationFailedException, InvalidQuestionException {
+    public ResponseEntity<AnswerResponse> createAnswer(@PathVariable("questionId") String questionId, AnswerRequest answerRequest, @RequestHeader("authorization") String accessToken) throws AuthorizationFailedException, InvalidQuestionException {
         AnswerEntity answerEntity = new AnswerEntity();
         answerEntity.setAnswer(answerRequest.getAnswer());
 

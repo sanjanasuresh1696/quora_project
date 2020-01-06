@@ -45,7 +45,7 @@ public class QuestionService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post a question");
         }
         questionEntity.setDate(ZonedDateTime.now());
-        questionEntity.setUuid(UUID.randomUUID());
+        questionEntity.setUuid(UUID.randomUUID().toString());
         questionEntity.setUserEntity(userAuthEntity.getUserEntity());
         return questionDao.createQuestion(questionEntity);
     }
@@ -73,14 +73,17 @@ public class QuestionService {
      * @param accessToken accessToken of the user for valid authentication.
      * @throws AuthorizationFailedException ATHR-001 - if user token is not present in DB. ATHR-002 if the user has already signed out.
      */
-    public QuestionEntity getQuestionById(String questionId, String accessToken) throws AuthorizationFailedException {
+    public QuestionEntity getQuestionById(String questionId, String accessToken) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuthEntity = userAuthDao.getUserAuthByAccessToken(accessToken);
         if (userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         } else if (userAuthEntity.getLogoutAt() != null) {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get all questions");
         }
-        return questionDao.getQuestionById(questionId);
+        QuestionEntity questionEntity=questionDao.getQuestionById(questionId);
+        if(questionEntity==null)
+            throw new InvalidQuestionException("QUES-001", "The question with entered uuid whose details are to be seen does not exist");
+        return questionEntity;
     }
 
 
@@ -99,7 +102,7 @@ public class QuestionService {
         }
         UserEntity userEntity = userDao.getUserById(userId);
         if (userEntity == null) {
-            throw new UserNotFoundException("USER-001", "User with entered uuid whose question details are to be seen does not exist");
+            throw new UserNotFoundException("USR-001", "User with entered uuid whose question details are to be seen does not exist");
         }
         return questionDao.getAllQuestionsByUser();
     }
@@ -147,6 +150,10 @@ public class QuestionService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to delete the question");
         }
         QuestionEntity questionEntity = questionDao.getQuestionById(questionId);
+        if(questionEntity==null)
+            throw new InvalidQuestionException("QUES-001","Entered question uuid does not exist");
+        if(questionEntity.getUserEntity().getId().equals(userAuthEntity.getUserEntity().getId()))
+            throw new AuthorizationFailedException("ATHR-003", "Only the question owner can edit the question");
         checkQuestionExistsAndOwnership(userAuthEntity, questionEntity, "delete");
         questionDao.deleteQuestion(questionEntity);
         return questionEntity;
