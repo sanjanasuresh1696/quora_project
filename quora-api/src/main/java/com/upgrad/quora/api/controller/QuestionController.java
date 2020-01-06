@@ -42,7 +42,7 @@ public class QuestionController {
      * @return UUID of the question created in DB.
      * @throws AuthorizationFailedException In case the access token is invalid.
      */
-    @PostMapping(path = "/question/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuestionResponse> createQuestion(@RequestHeader("authorization") String accessToken, QuestionRequest questionRequest) throws AuthorizationFailedException {
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setContent(questionRequest.getContent());

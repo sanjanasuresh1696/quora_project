@@ -66,6 +66,24 @@ public class QuestionService {
         return questionDao.getAllQuestions();
     }
 
+
+    /**
+     * Returns all the questions in the DB if the accessToken is valid.
+     *
+     * @param accessToken accessToken of the user for valid authentication.
+     * @throws AuthorizationFailedException ATHR-001 - if user token is not present in DB. ATHR-002 if the user has already signed out.
+     */
+    public QuestionEntity getQuestionById(String questionId, String accessToken) throws AuthorizationFailedException {
+        UserAuthEntity userAuthEntity = userAuthDao.getUserAuthByAccessToken(accessToken);
+        if (userAuthEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        } else if (userAuthEntity.getLogoutAt() != null) {
+            throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get all questions");
+        }
+        return questionDao.getQuestionById(questionId);
+    }
+
+
     /**
      * Returns all the questions posted by a user in the DB if the accessToken is valid.
      *
