@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,6 +25,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "question")
+@NamedQueries({
+        @NamedQuery(name = "getAllQuestions", query = "select q from QuestionEntity q"),
+        @NamedQuery(name = "getAllQuestionsByUser", query = "select q from QuestionEntity q JOIN FETCH q.userEntity u where u.uuid=:uuid"),
+        @NamedQuery(name = "getQuestionById", query = "select q from QuestionEntity q where q.uuid=:uuid")
+})
 public class QuestionEntity {
 
     @Id
