@@ -25,6 +25,8 @@ public class SignOutBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity authenticate(final String accessToken) throws SignOutRestrictedException {
         UserAuthEntity userAuthEntity = userAuthDao.getAccessToken(accessToken);
+        if(userAuthEntity==null)
+            throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
         if (userAuthEntity.getLoginAt() != null && userAuthEntity.getLogoutAt() != null) {
             throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
         }
